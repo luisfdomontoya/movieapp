@@ -7,7 +7,7 @@ class MovieSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 260,
+      height: 280,
       // color: Colors.red, //Esta propiedad es una buena forma de ver
       //el espacio que ocupado el widget
       child: Column(

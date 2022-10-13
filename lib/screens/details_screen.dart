@@ -15,7 +15,14 @@ class DetailsScreen extends StatelessWidget {
 
     return Scaffold(
       body: CustomScrollView(
-        slivers: [_CustomAppBar()],
+        slivers: [
+          _CustomAppBar(),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              const Text('hello worl'),
+            ]),
+          )
+        ],
       ),
     );
   }
@@ -26,9 +33,10 @@ class _CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       backgroundColor: Colors.indigo,
-      expandedHeight: 200,
+      expandedHeight: 200, //define la altura del widget SilverAppBar
       floating: false,
-      pinned: true,
+      pinned: true, //permite q llegue un punto que el SilverAppBar se deje
+      //de reducir y quede fijo
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
         titlePadding: const EdgeInsets.all(0),
@@ -38,7 +46,7 @@ class _CustomAppBar extends StatelessWidget {
           color: Colors.black12,
           child: const Text(
             'movie.title',
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 24),
           ),
         ),
         background: const FadeInImage(

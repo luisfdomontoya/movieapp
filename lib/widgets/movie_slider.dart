@@ -8,9 +8,11 @@ class MovieSlider extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 280,
-      // color: Colors.red, //Esta propiedad es una buena forma de ver
+      color: Colors.red, //Esta propiedad es una buena forma de ver
       //el espacio que ocupado el widget
       child: Column(
+        //Se usa para alinear el contenido de la columna, en este
+        //caso se alinea a la izquierda con CrossAxisAlignment.start:
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
@@ -22,6 +24,9 @@ class MovieSlider extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
+              //Cambio la dirección en que se muestran los items del
+              //ListView. Por defecto es vertical y aquí lo cambiamos a
+              //horizontal:
               scrollDirection: Axis.horizontal,
               itemCount: 20,
               itemBuilder: (BuildContext context, int index) =>
@@ -35,9 +40,7 @@ class MovieSlider extends StatelessWidget {
 }
 
 class _MoviePoster extends StatelessWidget {
-  const _MoviePoster({
-    Key? key,
-  }) : super(key: key);
+  const _MoviePoster({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -24,7 +24,7 @@ class DetailsScreen extends StatelessWidget {
               _OverView(),
               _OverView(),
               _OverView(),
-              CastingCards(),
+              const CastingCards(),
             ]),
           )
         ],
@@ -40,8 +40,10 @@ class _CustomAppBar extends StatelessWidget {
       backgroundColor: Colors.indigo,
       expandedHeight: 200, //define la altura del widget SilverAppBar
       floating: false,
-      pinned: true, //permite q llegue un punto que el SilverAppBar se deje
-      //de reducir y quede fijo
+      //permite q llegue un punto que el SilverAppBar se deje
+      //de reducir y quede fijo en el appbar. Funciona muy bien cuando se
+      //usa junto con floating:false :
+      pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
         titlePadding: const EdgeInsets.all(0),

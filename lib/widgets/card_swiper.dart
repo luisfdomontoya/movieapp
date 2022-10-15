@@ -3,8 +3,15 @@ import 'package:card_swiper/card_swiper.dart';
 
 import 'package:flutter/material.dart';
 
+import '../models/models.dart';
+
 class CardSwiper extends StatelessWidget {
-  const CardSwiper({super.key});
+  final List<Movie> movies;
+
+  const CardSwiper({
+    super.key,
+    required this.movies,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +28,7 @@ class CardSwiper extends StatelessWidget {
       //Swiper:
       child: Swiper(
         //indica el número de tarjetas que tendráel swiper:
-        itemCount: 10,
+        itemCount: movies.length,
         layout: SwiperLayout.STACK,
         //itemWidth e itemHeight establecen el tamaño de cada carta
         //del swiper
@@ -30,6 +37,8 @@ class CardSwiper extends StatelessWidget {
         //recuerde que todo lo que diga BUILDER será algo que se
         //construirá de manera dinámica o cuando se necesite:
         itemBuilder: (BuildContext context, int index) {
+          final movie = movies[index];
+
           return GestureDetector(
             //GestureDetector me permite agregar un onTap que me
             //permitirá agregar una ruta al momento de hacer tap
@@ -42,9 +51,9 @@ class CardSwiper extends StatelessWidget {
               //ClicpRRect me permite ponerle bordes al FadeInImage.
               //Esto lo hace con su propiedad borderRadius:
               borderRadius: BorderRadius.circular(20),
-              child: const FadeInImage(
-                placeholder: AssetImage('assets/no-image.jpg'),
-                image: NetworkImage('https://via.placeholder.com/300x400'),
+              child: FadeInImage(
+                placeholder: const AssetImage('assets/no-image.jpg'),
+                image: NetworkImage(movie.fullPosterImg),
                 //Le digo al FadeInImage que ocupe todo el espacio
                 //disponible:
                 fit: BoxFit.cover,

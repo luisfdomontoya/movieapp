@@ -14,7 +14,9 @@ import '../models/models.dart';
 class MoviesProvider extends ChangeNotifier {
   final String _apiKey = '73fcf29ebbd77050307a4cc197f2dfe7';
   final String _baseUrl = 'api.themoviedb.org';
-  String _lenguage = 'en-US';
+  final String _lenguage = 'en-US';
+
+  List<Movie> onDisplayMovies = [];
 
   MoviesProvider() {
     print('MoviesProvider initializing');
@@ -53,6 +55,8 @@ class MoviesProvider extends ChangeNotifier {
 
     final nowPlayingResponse = NowPlayingResponse.fromJson(response.body);
 
-    print(nowPlayingResponse.results[0].title);
+    // print(nowPlayingResponse.results[0].title);
+    onDisplayMovies = nowPlayingResponse.results;
+    notifyListeners();
   }
 }

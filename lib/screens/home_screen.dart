@@ -9,9 +9,26 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //En esta linea estoy diciendo: "necesito que se vaya al
+    //árbol de widgets (por eso el context) y me traiga la primera
+    //instancia que encuentre sobre MoviesProvider y colócala en
+    //mi atributo moviesProvider"
+    //Sino encuentra ninguna instancia la creará, siempre y cuando
+    //en el MultiProvider esté definido el provider MoviesProvider:
     final moviesProvider = Provider.of<MoviesProvider>(context);
 
-    print(moviesProvider.onDisplayMovies);
+    //la propiedad listen le dice al widget Provider que se re-dibuje
+    //cuando haya alguna modificación en alguna de las propiedades
+    //del provider (en este caso MoviesProvider), es decir, cuando se
+    //llamada notifyListeners éste verifica si el widget tiene alguna
+    //dependencia y si es así lo re-dibuja:
+
+    // final moviesProvider = Provider.of<MoviesProvider>(
+    //   context,
+    //   listen: true,
+    // );
+    //Por defecto el valor de listen es true. Se pone en false si
+    //no queremos que el widget se re-dibuje.
 
     return Scaffold(
         appBar: AppBar(

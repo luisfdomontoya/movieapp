@@ -54,9 +54,12 @@ class MoviesProvider extends ChangeNotifier {
     //mapa decodedData, así que lo comento y en su lugar uso la siguiente:
 
     final nowPlayingResponse = NowPlayingResponse.fromJson(response.body);
-
-    // print(nowPlayingResponse.results[0].title);
     onDisplayMovies = nowPlayingResponse.results;
+
+    //Este método se llama cada vez que hay un cambio que necesite
+    //re-dibujar la interfaz de usuario (y solo se re-dibujaran los
+    //widgets que necesiten re-dibujarse, no se re-dibujan todos los
+    //widgets) y en este caso se requiere
     notifyListeners();
   }
 }

@@ -33,6 +33,8 @@ class Movie {
   double voteAverage;
   int voteCount;
 
+  //Este método get me trae el path de cada una de las películas
+  //usando la propiedad posterPath:
   get fullPosterImg {
     if (posterPath != null) {
       return 'https://image.tmdb.org/t/p/w500$posterPath';

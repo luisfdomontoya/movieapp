@@ -10,7 +10,9 @@ class CardSwiper extends StatelessWidget {
 
   const CardSwiper({
     super.key,
-    required this.movies,
+    required this.movies, //al poner movies como 'requerido' le
+    //estoy diciendo que siempre que se cree el widget CardSwiper
+    //me traiga las películas
   });
 
   @override

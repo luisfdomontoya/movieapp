@@ -6,9 +6,10 @@ class MovieSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       width: double.infinity,
       height: 280,
-      color: Colors.red, //Esta propiedad es una buena forma de ver
+      //color: Colors.red, //Esta propiedad es una buena forma de ver
       //el espacio que ocupado el widget
       child: Column(
         //Se usa para alinear el contenido de la columna, en este
@@ -47,7 +48,7 @@ class _MoviePoster extends StatelessWidget {
     return Container(
       width: 130,
       height: 190,
-      // color: Colors.green, //Esta propiedad es una buena forma de ver
+      //color: Colors.green, //Esta propiedad es una buena forma de ver
       //el espacio que ocupado el widget
       margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(

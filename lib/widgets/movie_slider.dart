@@ -8,7 +8,7 @@ class MovieSlider extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       width: double.infinity,
-      height: 280,
+      height: 290,
       //color: Colors.red, //Esta propiedad es una buena forma de ver
       //el espacio que ocupado el widget
       child: Column(

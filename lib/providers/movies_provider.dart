@@ -19,7 +19,7 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> onDisplayMovies = [];
 
   MoviesProvider() {
-    print('MoviesProvider initializing');
+    //print('MoviesProvider initializing');
 
     //recuerde que el uso de this es opcional en dart. Sin embargo,
     //aveces es conveniente usarlo para que quede claro a cuál

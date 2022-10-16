@@ -18,6 +18,11 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> onDisplayMovies = [];
   List<Movie> popularMovies = [];
 
+  //este atributo se usará para listar las películas en el
+  //ListView.builder del MovieSlider. La primera tanda empieza
+  //en 0 y si quiero volver a pedirla aumentará 1:
+  int _popularPage = 0;
+
   MoviesProvider() {
     //print('MoviesProvider initializing');
 
@@ -28,51 +33,27 @@ class MoviesProvider extends ChangeNotifier {
     this.getPopularMovies();
   }
 
-  getOnDisplayMovies() async {
-    var url = Uri.https(_baseUrl, '/3/movie/now_playing', {
+  Future<String> _getJsonData(String endpoint, [int page = 1]) async {
+    var url = Uri.https(_baseUrl, endpoint, {
       'api_key': _apiKey,
       'language': _lenguage,
-      'page': '1',
+      'page': '$page',
     });
+    final response = await http.get(url);
+    return response.body;
+  }
 
-    //1. Esperamos la respuesta de la petición http get
-    final response = await http.get(url); //esto devuelve un json
-
-    //2. Luego de obtener la respuesta necesitamos convertirla a algo
-    //para poder usar esa información en nuestra aplicación. Una
-    //forma de hacerlo es convertir la respuesta en un mapa. Para que
-    //json.decode sepa que necesita convertir a un mapa le debo indicar
-    //en el lado izquiero el tipo de dato que es decodedData, así:
-
-    //final Map<String, dynamic> decodedData = json.decode(response.body);
-
-    //3. El paso siguiente es mapear el mapa decodedData a una clase.
-    //Este mapeo se puede hacer manual (lo cual tomaría mucho tiempo) o
-    //podemos usar el sitio web quicktype.io. En este caso usan el sitio
-    //web. Lo que hace quicktype es crear una clase que se adapte
-    //exactamente al json que le pasemos.
-    //Con la ayuda de la clase que me generó quicktype ya no necesito el
-    //mapa decodedData, así que lo comento y en su lugar uso la siguiente:
-
-    final nowPlayingResponse = NowPlayingResponse.fromJson(response.body);
+  getOnDisplayMovies() async {
+    final jsonData = await _getJsonData('/3/movie/now_playing');
+    final nowPlayingResponse = NowPlayingResponse.fromJson(jsonData);
     onDisplayMovies = nowPlayingResponse.results;
-
-    //Este método se llama cada vez que hay un cambio que necesite
-    //re-dibujar la interfaz de usuario (y solo se re-dibujaran los
-    //widgets que necesiten re-dibujarse, no se re-dibujan todos los
-    //widgets) y en este caso se requiere
     notifyListeners();
   }
 
   getPopularMovies() async {
-    var url = Uri.https(_baseUrl, '/3/movie/popular', {
-      'api_key': _apiKey,
-      'language': _lenguage,
-      'page': '1',
-    });
-
-    final response = await http.get(url);
-    final popularResponse = PopularResponse.fromJson(response.body);
+    _popularPage++;
+    final jsonData = await _getJsonData('/3/movie/popular', _popularPage);
+    final popularResponse = PopularResponse.fromJson(jsonData);
     popularMovies = [...popularMovies, ...popularResponse.results];
     notifyListeners();
   }

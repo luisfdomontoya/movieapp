@@ -21,6 +21,20 @@ class CardSwiper extends StatelessWidget {
     //de mi dispositivo donde corre nuestra app:
     final size = MediaQuery.of(context).size;
 
+    //Este codigo lo escribio Fernando para cuando movies no tiene
+    //cartas para mostrar. Era un error que le aparecía a él, pero
+    //en las pruebas que yo hice no se genera este error y por eso
+    //comento este código:
+    // if (movies.isEmpty) {
+    //   return SizedBox(
+    //     width: double.infinity,
+    //     height: size.height * 8.5,
+    //     child: const Center(
+    //       child: CircularProgressIndicator(),
+    //     ),
+    //   );
+    // }
+
     return Container(
       width: double.infinity, //esta línea le dice que tome todo
       //el ancho posible basado en el contenedor padre.
@@ -29,7 +43,7 @@ class CardSwiper extends StatelessWidget {
       //(en este caso) irá otro widget, en este caso, el widget
       //Swiper:
       child: Swiper(
-        //indica el número de tarjetas que tendráel swiper:
+        //indica el número de tarjetas que tendrá el swiper:
         itemCount: movies.length,
         layout: SwiperLayout.STACK,
         //itemWidth e itemHeight establecen el tamaño de cada carta

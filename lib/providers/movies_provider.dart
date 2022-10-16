@@ -5,8 +5,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-import '../models/models.dart';
+import 'package:movieapp/models/models.dart';
 
 //Importante: nuestra clase provider (MoviesProvier) debe
 //extender de la lcase ChangeNotifier para que sea realemente
@@ -17,6 +16,7 @@ class MoviesProvider extends ChangeNotifier {
   final String _lenguage = 'en-US';
 
   List<Movie> onDisplayMovies = [];
+  List<Movie> popularMovies = [];
 
   MoviesProvider() {
     //print('MoviesProvider initializing');
@@ -25,6 +25,7 @@ class MoviesProvider extends ChangeNotifier {
     //aveces es conveniente usarlo para que quede claro a cuál
     //método o variable hacemos referencia:
     this.getOnDisplayMovies();
+    this.getPopularMovies();
   }
 
   getOnDisplayMovies() async {
@@ -60,6 +61,19 @@ class MoviesProvider extends ChangeNotifier {
     //re-dibujar la interfaz de usuario (y solo se re-dibujaran los
     //widgets que necesiten re-dibujarse, no se re-dibujan todos los
     //widgets) y en este caso se requiere
+    notifyListeners();
+  }
+
+  getPopularMovies() async {
+    var url = Uri.https(_baseUrl, '/3/movie/popular', {
+      'api_key': _apiKey,
+      'language': _lenguage,
+      'page': '1',
+    });
+
+    final response = await http.get(url);
+    final popularResponse = PopularResponse.fromJson(response.body);
+    popularMovies = [...popularMovies, ...popularResponse.results];
     notifyListeners();
   }
 }

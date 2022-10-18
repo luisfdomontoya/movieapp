@@ -18,6 +18,8 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> onDisplayMovies = [];
   List<Movie> popularMovies = [];
 
+  Map<int, List<Cast>> moviesCast = {};
+
   //este atributo se usará para listar las películas en el
   //ListView.builder del MovieSlider. La primera tanda empieza
   //en 0 y si quiero volver a pedirla aumentará 1:
@@ -56,5 +58,13 @@ class MoviesProvider extends ChangeNotifier {
     final popularResponse = PopularResponse.fromJson(jsonData);
     popularMovies = [...popularMovies, ...popularResponse.results];
     notifyListeners();
+  }
+
+  Future<List<Cast>> getMoviesCast(int movieId) async {
+    print('pidiendo info al servidor - cast');
+    final jsonData = await _getJsonData('3/movie/$movieId/credits');
+    final creditsResponse = CreditsResponse.fromJson(jsonData);
+    moviesCast[movieId] = creditsResponse.cast;
+    return creditsResponse.cast;
   }
 }

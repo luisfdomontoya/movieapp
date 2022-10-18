@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 import 'package:movieapp/models/models.dart';
 import 'package:movieapp/providers/movies_provider.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +13,9 @@ class CastingCards extends StatelessWidget {
   Widget build(BuildContext context) {
     final moviesProvider = Provider.of<MoviesProvider>(context, listen: false);
 
+    //Este widget se construye basado en un Future, es decir, depende de
+    //la respuesta (en este caso) de moviesProvider.getMoviesCast(movieId)
+    //para renderizarse:
     return FutureBuilder(
       future: moviesProvider.getMoviesCast(movieId),
       builder: (BuildContext context, AsyncSnapshot<List<Cast>> snapshot) {
@@ -33,7 +36,7 @@ class CastingCards extends StatelessWidget {
           child: ListView.builder(
             itemCount: 10,
             scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) => _CastCard(),
+            itemBuilder: (context, index) => _CastCard(cast[index]),
           ),
         );
       },
@@ -42,6 +45,10 @@ class CastingCards extends StatelessWidget {
 }
 
 class _CastCard extends StatelessWidget {
+  final Cast actor;
+
+  const _CastCard(this.actor);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,17 +62,17 @@ class _CastCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: const FadeInImage(
-              placeholder: AssetImage('assets/loading.gif'),
-              image: NetworkImage('https://via.placeholder.com/150x300'),
+            child: FadeInImage(
+              placeholder: const AssetImage('assets/loading.gif'),
+              image: NetworkImage(actor.fullProfilePath),
               width: 110,
               height: 140,
               fit: BoxFit.cover,
             ),
           ),
           const SizedBox(height: 5),
-          const Text(
-            'action.name some random name actor',
+          Text(
+            actor.name,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,

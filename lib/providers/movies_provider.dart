@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:movieapp/models/models.dart';
+import 'package:movieapp/models/search_response.dart';
 
 //Importante: nuestra clase provider (MoviesProvier) debe
 //extender de la lcase ChangeNotifier para que sea realemente
@@ -36,7 +37,7 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   Future<String> _getJsonData(String endpoint, [int page = 1]) async {
-    var url = Uri.https(_baseUrl, endpoint, {
+    final url = Uri.https(_baseUrl, endpoint, {
       'api_key': _apiKey,
       'language': _lenguage,
       'page': '$page',
@@ -67,5 +68,18 @@ class MoviesProvider extends ChangeNotifier {
     final creditsResponse = CreditsResponse.fromJson(jsonData);
     moviesCast[movieId] = creditsResponse.cast;
     return creditsResponse.cast;
+  }
+
+  Future<List<Movie>> searchMovies(String query) async {
+    final url = Uri.https(_baseUrl, '3/search/movie', {
+      'api_key': _apiKey,
+      'language': _lenguage,
+      'query': query,
+    });
+
+    final response = await http.get(url);
+    final searchResponse = SearchResponse.fromJson(response.body);
+
+    return searchResponse.results;
   }
 }

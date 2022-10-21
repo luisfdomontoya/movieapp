@@ -74,7 +74,36 @@ class MovieSearchDelegate extends SearchDelegate {
       builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
         if (!snapshot.hasData) return _emptyContainer();
 
-        return;
+        final movies = snapshot.data!;
+
+        return ListView.builder(
+          itemCount: movies.length,
+          itemBuilder: (BuildContext context, int index) =>
+              _MovieItem(movies[index]),
+        );
+      },
+    );
+  }
+}
+
+class _MovieItem extends StatelessWidget {
+  final Movie movie;
+
+  const _MovieItem(this.movie);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: FadeInImage(
+        placeholder: const AssetImage('assets/no-image.jpg'),
+        image: NetworkImage(movie.fullPosterImg),
+        width: 50,
+        fit: BoxFit.contain,
+      ),
+      title: Text(movie.title),
+      subtitle: Text(movie.originalTitle),
+      onTap: () {
+        Navigator.pushNamed(context, 'details', arguments: movie);
       },
     );
   }

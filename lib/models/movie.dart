@@ -33,6 +33,8 @@ class Movie {
   double voteAverage;
   int voteCount;
 
+  String? heroId;
+
   //Este método get me trae el path de cada una de las películas
   //usando la propiedad posterPath:
   get fullPosterImg {

@@ -55,6 +55,8 @@ class CardSwiper extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final movie = movies[index];
 
+          movie.heroId = 'swiper-${movie.id}';
+
           return GestureDetector(
             //GestureDetector me permite agregar un onTap que me
             //permitirá agregar una ruta al momento de hacer tap
@@ -63,16 +65,19 @@ class CardSwiper extends StatelessWidget {
               'details',
               arguments: movie,
             ),
-            child: ClipRRect(
-              //ClicpRRect me permite ponerle bordes al FadeInImage.
-              //Esto lo hace con su propiedad borderRadius:
-              borderRadius: BorderRadius.circular(20),
-              child: FadeInImage(
-                placeholder: const AssetImage('assets/no-image.jpg'),
-                image: NetworkImage(movie.fullPosterImg),
-                //Le digo al FadeInImage que ocupe todo el espacio
-                //disponible:
-                fit: BoxFit.cover,
+            child: Hero(
+              tag: movie.heroId!,
+              child: ClipRRect(
+                //ClicpRRect me permite ponerle bordes al FadeInImage.
+                //Esto lo hace con su propiedad borderRadius:
+                borderRadius: BorderRadius.circular(20),
+                child: FadeInImage(
+                  placeholder: const AssetImage('assets/no-image.jpg'),
+                  image: NetworkImage(movie.fullPosterImg),
+                  //Le digo al FadeInImage que ocupe todo el espacio
+                  //disponible:
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           );

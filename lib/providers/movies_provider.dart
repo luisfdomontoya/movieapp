@@ -1,10 +1,12 @@
 //Para poder usar json en nuestra petición
 //debemos importar este paquete, aunque lo puedo autoimportar
 //en el momento que uso json:
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:movieapp/helpers/deboucer.dart';
 import 'package:movieapp/models/models.dart';
 import 'package:movieapp/models/search_response.dart';
 
@@ -25,6 +27,16 @@ class MoviesProvider extends ChangeNotifier {
   //ListView.builder del MovieSlider. La primera tanda empieza
   //en 0 y si quiero volver a pedirla aumentará 1:
   int _popularPage = 0;
+
+  final deboucer = Debouncer(
+    duration: const Duration(milliseconds: 500),
+  );
+
+  final StreamController<List<Movie>> _suggestionStreamController =
+      new StreamController.broadcast();
+
+  Stream<List<Movie>> get suggestionStream =>
+      this._suggestionStreamController.stream;
 
   MoviesProvider() {
     //print('MoviesProvider initializing');
@@ -81,5 +93,22 @@ class MoviesProvider extends ChangeNotifier {
     final searchResponse = SearchResponse.fromJson(response.body);
 
     return searchResponse.results;
+  }
+
+  void getSuggestionByQuery(String searchTerm) {
+    deboucer.value = '';
+    deboucer.onValue = (value) async {
+      print('el valor a buscar $value');
+      final results = await this.searchMovies(value);
+      this._suggestionStreamController.add(results);
+    };
+
+    final timer = Timer.periodic(const Duration(milliseconds: 300), (_) {
+      deboucer.value = searchTerm;
+    });
+
+    Future.delayed(const Duration(milliseconds: 301)).then(
+      (_) => timer.cancel(),
+    );
   }
 }
